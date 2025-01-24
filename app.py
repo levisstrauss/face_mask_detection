@@ -9,12 +9,11 @@ def predict(image):
     html_output = f"""
     <div style="width: 100%; max-width: 42rem; margin: auto; padding: 1.5rem; background: white; border-radius: 0.75rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
         <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-            <div style="width: 0.75rem; height: 0.75rem; border-radius: 9999px; background: {is_mask ? '#22c55e' : '#ef4444'}; margin-right: 0.5rem;"></div>
-            <h2 style="font-size: 1.5rem; font-weight: bold; color: {is_mask ? '#15803d' : '#b91c1c'};">
+            <div style="width: 0.75rem; height: 0.75rem; border-radius: 9999px; background: {'#22c55e' if is_mask else '#ef4444'}; margin-right: 0.5rem;"></div>
+            <h2 style="font-size: 1.5rem; font-weight: bold; color: {'#15803d' if is_mask else '#b91c1c'};">
                 {result['prediction']} Detected
             </h2>
         </div>
-        
         <div style="margin-bottom: 1rem;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
                 <span style="font-size: 0.875rem; font-weight: 500; color: #374151;">Confidence Level</span>
@@ -24,11 +23,10 @@ def predict(image):
                 <div style="height: 0.625rem; border-radius: 9999px; background: #2563eb; width: {result['confidence']}%; transition: width 0.5s ease;"></div>
             </div>
         </div>
-        
         <div style="display: flex; align-items: center;">
             <span style="padding: 0.25rem 0.75rem; font-size: 0.875rem; font-weight: 500; border-radius: 9999px; 
-                background: {result['status'] == 'HIGH_CONFIDENCE' ? '#dcfce7' : '#fef9c3'}; 
-                color: {result['status'] == 'HIGH_CONFIDENCE' ? '#166534' : '#854d0e'};">
+                background: {'#dcfce7' if result['status'] == 'HIGH_CONFIDENCE' else '#fef9c3'}; 
+                color: {'#166534' if result['status'] == 'HIGH_CONFIDENCE' else '#854d0e'};">
                 {result['status']}
             </span>
         </div>
