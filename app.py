@@ -27,8 +27,8 @@ iface = gr.Interface(
     title="Face Mask Detection",
     description="Upload an image to detect if a person is wearing a face mask.",
     examples=[
-        ["examples/mask.jpg"],
-        ["examples/no_mask.jpg"]
+        ["examples/9.png"],
+        ["examples/28.png"]
     ],
     cache_examples=True
 )
