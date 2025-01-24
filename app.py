@@ -2,7 +2,7 @@ import gradio as gr
 from detector import MaskDetector
 from pathlib import Path
 
-model_path = Path('models/face_mask_detector_final.pth')
+model_path = Path('face_mask_detector_final.pth')
 detector = MaskDetector(model_path)
 
 def predict(image):
