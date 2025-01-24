@@ -4,9 +4,11 @@ A production-ready face mask detection system using ResNet18 neural network and 
 
 <div align="center">
 
-[![DEMO](https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/Codemon/maskguard)
+Demo link:   [![DEMO](https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/Codemon/maskguard)
 
 </div>
+
+<img src="./examples/img.png" width="800" height="400" alt="Project Demo"/>
 
 ## Project Overview
 
@@ -19,7 +21,7 @@ This project implements a real-time face mask detection system using:
 ## Installation
 
 ```bash
-git clone https://github.com/YOURUSERNAME/face-mask-detection
+git clone https://github.com/levisstrauss/face-mask-detection
 cd face-mask-detection
 pip install -r requirements.txt
 ```
