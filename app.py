@@ -17,7 +17,7 @@ class MaskDetector:
         ])
 
     def load_model(self, model_path):
-        model = models.resnet18(weights=ResNet18_Weights.DEFAULT)
+        model = models.resnet18(pretrained=True) 
         num_features = model.fc.in_features
         model.fc = nn.Sequential(
             nn.Linear(num_features, 256),
