@@ -39,12 +39,16 @@ def predict(image):
     
     return gr.HTML(html_output)
 
+css = """
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+"""
+
 interface = gr.Interface(
     fn=predict,
     inputs=gr.Image(type="pil"),
     outputs=gr.HTML(),
     title="Face Mask Detection",
-    css="tailwind"
+    css=css
 )
 
 if __name__ == "__main__":
