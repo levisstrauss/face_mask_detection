@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Initialize detector
-model_path = Path('models/face_mask_detector_final.pth')
+model_path = Path('face_mask_detector_final.pth')
 detector = MaskDetector(model_path)
 
 def predict(image):
