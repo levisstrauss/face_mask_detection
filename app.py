@@ -45,14 +45,31 @@ class MaskDetector:
 detector = MaskDetector('face_mask_detector_final.pth')
 
 
-def detect_mask(image):
-    return detector.predict(image)
+# def detect_mask(image):
+#     return detector.predict(image)
 
+
+# demo = gr.Interface(
+#     fn=detect_mask,
+#     inputs=gr.Image(),
+#     outputs="text"
+# )
+
+def detect_mask(image):
+   result = detector.predict(image)
+   color = "#4CAF50" if result['prediction'] == "Mask" else "#FF5252"  # Green/Red
+   return gr.update(value=f"{result['prediction']} ({result['confidence']:.1f}% - {result['status']})", 
+                   label="Result", 
+                   container=True,
+                   elem_classes="p-4 rounded",
+                   elem_id="result",
+                   style=f"background: {color}; color: white;")
 
 demo = gr.Interface(
-    fn=detect_mask,
-    inputs=gr.Image(),
-    outputs="text"
+   fn=detect_mask,
+   inputs=gr.Image(),
+   outputs=gr.Textbox(label="Result"),
+   css=".p-4 { padding: 1rem; } .rounded { border-radius: 0.5rem; }"
 )
 
 demo.launch()
