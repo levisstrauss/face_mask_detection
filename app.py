@@ -2,6 +2,10 @@ import gradio as gr
 from detector import MaskDetector
 from pathlib import Path
 
+# Initialize detector globally
+model_path = Path('face_mask_detector_final.pth')
+detector = MaskDetector(model_path)
+
 def predict(image):
     result = detector.predict_image(image)
     is_mask = result['prediction'] == 'Mask'
