@@ -44,8 +44,10 @@ interface = gr.Interface(
     outputs=gr.HTML(),
     title="Face Mask Detection",
     examples=[
+        ["examples/23.png"],
         ["examples/28.png"],
-        ["examples/8.png"]
+        ["examples/8.png"],
+        ["examples/9.png"],
     ],
     cache_examples=True
 )
