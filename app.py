@@ -42,7 +42,7 @@ class MaskDetector:
         return "Mask" if prediction.item() == 0 else "No Mask"
 
 
-detector = MaskDetector('models/face_mask_detector_final.pth')
+detector = MaskDetector('face_mask_detector_final.pth')
 
 
 def detect_mask(image):
