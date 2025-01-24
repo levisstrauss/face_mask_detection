@@ -42,7 +42,12 @@ interface = gr.Interface(
     fn=predict,
     inputs=gr.Image(type="pil"),
     outputs=gr.HTML(),
-    title="Face Mask Detection"
+    title="Face Mask Detection",
+    examples=[
+        ["examples/28.png"],
+        ["examples/8.png"]
+    ],
+    cache_examples=True
 )
 
 if __name__ == "__main__":
