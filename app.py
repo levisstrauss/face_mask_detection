@@ -1,103 +1,94 @@
-
 import gradio as gr
 from detector import MaskDetector
 from pathlib import Path
-import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Initialize detector
-model_path = Path('face_mask_detector_final.pth')
+model_path = Path('models/face_mask_detector_final.pth')
 detector = MaskDetector(model_path)
 
 def predict(image):
-    try:
-        result = detector.predict_image(image)
-        return f"{result['prediction']} (Confidence: {result['confidence']:.2f}%, Status: {result['status']})"
-    except Exception as e:
-        logger.error(f"Prediction error: {str(e)}")
-        return "Error processing image"
+    result = detector.predict_image(image)
+    
+    html_output = f"""
+    <div class="w-full max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+        <div class="flex items-center mb-4">
+            <div class="w-3 h-3 rounded-full {'bg-green-500' if result['prediction'] == 'Mask' else 'bg-red-500'} mr-2"></div>
+            <h2 class="text-2xl font-bold {'text-green-700' if result['prediction'] == 'Mask' else 'text-red-700'}">
+                {result['prediction']} Detected
+            </h2>
+        </div>
+        
+        <div class="mb-4">
+            <div class="flex justify-between mb-1">
+                <span class="text-sm font-medium text-gray-700">Confidence Level</span>
+                <span class="text-sm font-medium text-gray-700">{result['confidence']:.2f}%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="h-2.5 rounded-full bg-blue-600 transition-all duration-500" 
+                     style="width: {result['confidence']}%"></div>
+            </div>
+        </div>
+        
+        <div class="flex items-center">
+            <span class="px-3 py-1 text-sm font-medium rounded-full 
+                      {'bg-green-100 text-green-800' if result['status'] == 'HIGH_CONFIDENCE' else 'bg-yellow-100 text-yellow-800'}">
+                {result['status']}
+            </span>
+        </div>
+    </div>
+    """
+    
+    return gr.HTML(html_output)
 
-# Create Gradio interface
-iface = gr.Interface(
+interface = gr.Interface(
     fn=predict,
     inputs=gr.Image(type="pil"),
-    outputs=gr.Text(),
+    outputs=gr.HTML(),
     title="Face Mask Detection",
-    description="Upload an image to detect if a person is wearing a face mask.",
-    examples=[
-        ["examples/9.png"],
-        ["examples/28.png"]
-    ],
-    cache_examples=True
+    css="tailwind"
 )
 
-# Launch app
 if __name__ == "__main__":
-    iface.launch()
-
+    interface.launch()
 
 
 
 
 
 # import gradio as gr
-# import torch
-# import torchvision.transforms as transforms
-# from PIL import Image
-# from torchvision import models
-# import torch.nn as nn
+# from detector import MaskDetector
+# from pathlib import Path
+# import logging
 
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger(__name__)
 
-# class MaskDetector:
-#     def __init__(self, model_path):
-#         self.device = torch.device('cpu')
-#         self.model = self.load_model(model_path)
-#         self.transform = transforms.Compose([
-#             transforms.Resize((224, 224)),
-#             transforms.ToTensor(),
-#             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-#         ])
+# # Initialize detector
+# model_path = Path('face_mask_detector_final.pth')
+# detector = MaskDetector(model_path)
 
-#     def load_model(self, model_path):
-#         model = models.resnet18(pretrained=True) 
-#         num_features = model.fc.in_features
-#         model.fc = nn.Sequential(
-#             nn.Linear(num_features, 256),
-#             nn.ReLU(),
-#             nn.Dropout(0.5),
-#             nn.Linear(256, 2)
-#         )
-#         checkpoint = torch.load(model_path, map_location=self.device)
-#         model.load_state_dict(checkpoint['model_state_dict'])
-#         model.eval()
-#         return model
+# def predict(image):
+#     try:
+#         result = detector.predict_image(image)
+#         return f"{result['prediction']} (Confidence: {result['confidence']:.2f}%, Status: {result['status']})"
+#     except Exception as e:
+#         logger.error(f"Prediction error: {str(e)}")
+#         return "Error processing image"
 
-#     def predict(self, image):
-#         img = Image.fromarray(image).convert('RGB')
-#         img = self.transform(img).unsqueeze(0)
-
-#         with torch.no_grad():
-#             outputs = self.model(img)
-#             probs = torch.nn.functional.softmax(outputs, dim=1)
-#             confidence, prediction = probs.max(1)
-
-#         return "Mask" if prediction.item() == 0 else "No Mask"
-
-
-# detector = MaskDetector('face_mask_detector_final.pth')
-
-
-# def detect_mask(image):
-#     return detector.predict(image)
-
-
-# demo = gr.Interface(
-#     fn=detect_mask,
-#     inputs=gr.Image(),
-#     outputs="text"
+# # Create Gradio interface
+# iface = gr.Interface(
+#     fn=predict,
+#     inputs=gr.Image(type="pil"),
+#     outputs=gr.Text(),
+#     title="Face Mask Detection",
+#     description="Upload an image to detect if a person is wearing a face mask.",
+#     examples=[
+#         ["examples/9.png"],
+#         ["examples/28.png"]
+#     ],
+#     cache_examples=True
 # )
 
+# # Launch app
+# if __name__ == "__main__":
+#     iface.launch()
 
-# demo.launch()
